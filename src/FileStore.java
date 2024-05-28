@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 import file.FileHandler;
+import java.util.Random;
 
 public class FileStore {
 
@@ -17,7 +18,8 @@ public class FileStore {
         FileHandler fileHandler = new FileHandler();
         try {
             List<String> chunks = fileHandler.getFileChunks(file);
-            try (FileOutputStream fos = new FileOutputStream("moon_2.png")) {
+            Random random = new Random();
+            try (FileOutputStream fos = new FileOutputStream( random.nextInt(1000) + file.getName())) {
                 fileHandler.getFile(chunks).writeTo(fos);
             }
         } catch (IOException e) {
