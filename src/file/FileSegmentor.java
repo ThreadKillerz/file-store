@@ -10,10 +10,10 @@ import java.util.List;
 
 public class FileSegmentor {
 
-    final int noOfPeers;
+    final int chunkSize;
 
     public FileSegmentor() {
-        this.noOfPeers = 3;
+        this.chunkSize = 1024*1024;
     }
 
     public List<byte[]> chunkFile(File file) throws IOException {
@@ -21,10 +21,10 @@ public class FileSegmentor {
         byte[] fileBytes = Files.readAllBytes(filePath);
 
         int totalSize = fileBytes.length;
-        int chunkSize = totalSize / this.noOfPeers; // Change this to adapt to your needs
+        int noOfChunks = (int) Math.ceil((double) totalSize / chunkSize);
 
         List<byte[]> chunks = new ArrayList<>();
-        for (int i = 0; i < this.noOfPeers; i++) {
+        for (int i = 0; i < noOfChunks; i++) {
             int start = i * chunkSize;
             int length = Math.min(chunkSize, totalSize - start);
             byte[] chunk = new byte[length];
